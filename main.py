@@ -3,6 +3,7 @@
 import time
 import webbrowser
 import random
+from random import shuffle
 import sys
 
 from bs4 import BeautifulSoup
@@ -45,10 +46,11 @@ if(mode == "search"):
         if(badLink):
             #favor the primary
             primaryLinks = [line.rstrip('\n') for line in open("primary.txt")]
+            shuffle(primaryLinks)
             for i in links:
                 for linkED in primaryLinks:
-                    if(i.get('title') == linkED):
-                        print("Going to primary page: " + i.get("title"))
+                    if(str(i.get('title')).replace(" ", "_") == linkED):
+                        print("\nGoing to primary page: " + i.get("title"))
                         link = i
                         badLink = False
                         break
@@ -56,10 +58,11 @@ if(mode == "search"):
         if(badLink):
             #favor the secondary
             secondaryLinks = [line.rstrip('\n') for line in open("secondary.txt")]
+            shuffle(secondaryLinks)
             for i in links:
                 for linkED in secondaryLinks:
-                    if(i.get('title') == linkED):
-                        print("Going to secondary page: " + i.get("title"))
+                    if(str(i.get('title')).replace(" ", "_") == linkED):
+                        print("\nGoing to secondary page: " + i.get("title"))
                         link = i
                         badLink = False
                         break
@@ -79,7 +82,7 @@ if(mode == "search"):
             if(link.get('title') == None or link.get('title') == ""):
                 continue
 
-            if(link.get('href') == "https://en.wikipedia.org/wiki/Main_Page"):
+            if(link.get('href') == "/wiki/Main_Page"):
                 continue
 
             if(":" in link.get('href')):
@@ -96,7 +99,7 @@ if(mode == "search"):
             print("\n\nWE FOUND HALLOWEEN IN " + str(hops) + " HOPS")
             time.sleep(2)
             webbrowser.open("https://www.youtube.com/watch?v=PBHvJrVma8Y&feature=youtu.be&t=1s")
-            time.sleep(4)
+            time.sleep(1)
             webbrowser.open("https://en.wikipedia.org" + link.get('href'))
             exit()
 
@@ -112,7 +115,7 @@ elif(mode == "primary"):
 
     primaryLinks = [line.rstrip('\n') for line in open("primary.txt")]
     
-    for x in range(0, 500):
+    for x in range(0, 50000):
         resp = urllib.request.urlopen(page)
         soup = BeautifulSoup(resp, from_encoding=resp.info().get_param('charset'))
 
@@ -140,7 +143,7 @@ elif (mode == "secondary"):
     primaryLinks = [line.rstrip('\n') for line in open("primary.txt")]
     secondaryLinks = [line.rstrip('\n') for line in open("secondary.txt")]
     
-    for x in range(0, 500):
+    for x in range(0, 50000):
         resp = urllib.request.urlopen(page)
         soup = BeautifulSoup(resp, from_encoding=resp.info().get_param('charset'))
 
