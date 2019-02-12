@@ -127,7 +127,7 @@ elif(mode == "primary"):
                     title = soup.title.string
                     title = title[:-12]
                     title = title.replace(" ", "_")
-                    print("Adding: " + title)
+                    print("Adding: " + title.encode("cp437", "ignore").strip().decode('cp437'))
                     with open("primary.txt", "a") as myfile:
                         myfile.write(title  + "\n")
                     break
@@ -157,7 +157,7 @@ elif (mode == "secondary"):
                     title = title[:-12]
                     title = title.replace(" ", "_")
                 if(title not in secondaryLinks):
-                    print("Adding: " + title)
+                    print("Adding: " + title.encode("cp437", "ignore").strip().decode('cp437'))
                     with open("secondary.txt", "a") as myfile:
                         myfile.write(title  + "\n")
                     break
